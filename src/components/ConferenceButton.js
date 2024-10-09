@@ -1,45 +1,35 @@
 // src/components/ConferenceButton.js
 import React from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-const ConfButton = styled.button`
-  padding: 20px 40px; /* Increased padding for larger button */
-  background-color: #b2dfdb;
+const Button = styled.button`
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #007bff;
+  color: white;
   border: none;
-  border-radius: 12px;
-  color: black;
-  font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
-  margin: 10px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s ease;
-  font-size: 1.2rem; /* Increased font size */
 
   &:hover {
-    background-color: #80cbc4;
+    background-color: #0056b3;
   }
-`;
-
-const Emoji = styled.span`
-  font-size: 2rem; /* Increased emoji size */
-  margin-right: 15px; /* Adjusted margin for spacing */
 `;
 
 const ConferenceButton = ({ conference }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/conference/${conference.confName}`);
+    navigate(`/conference/${conference.name}`); // Navigate to the conference page
   };
 
   return (
-    <ConfButton onClick={handleClick}>
-      <Emoji>{conference.emoji}</Emoji>
-      {conference.confName} ({conference.committee})
-    </ConfButton>
+    <Button onClick={handleClick}>
+      {conference.name} - {conference.committee} ({conference.country})
+    </Button>
   );
 };
 

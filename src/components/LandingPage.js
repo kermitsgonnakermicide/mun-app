@@ -62,7 +62,7 @@ const LandingPage = () => {
       {isModalOpen && (
         <CreateConferenceModal
           onClose={() => setModalOpen(false)}
-          onCreate={handleCreate}
+          onCreate={handleCreate} // Pass the handleCreate function here
         />
       )}
     </PageContainer>

@@ -1,4 +1,3 @@
-// src/components/Login.js
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -18,6 +17,7 @@ const Input = styled.input`
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 12px;
+  font-size: 16px;
 `;
 
 const Button = styled.button`
@@ -28,7 +28,13 @@ const Button = styled.button`
   border-radius: 12px;
   color: white;
   font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #4db6ac; /* slightly darker pastel green */
+  }
 `;
 
 const Error = styled.p`
@@ -43,10 +49,13 @@ const Login = ({ onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Simple validation for "daksh" and "0609"
     if (username === "daksh" && password === "0609") {
-      onLogin();
+      setError("");
+      onLogin(); // Calling the parent component's login handler
     } else {
-      setError("Invalid credentials");
+      setError("Invalid credentials. Please try again.");
     }
   };
 
@@ -59,12 +68,14 @@ const Login = ({ onLogin }) => {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
         <Input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <Button type="submit">Login</Button>
         {error && <Error>{error}</Error>}
