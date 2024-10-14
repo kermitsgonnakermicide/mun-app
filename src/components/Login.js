@@ -1,84 +1,71 @@
+// src/components/Login.js
 import React, { useState } from "react";
 import styled from "styled-components";
 
 const LoginContainer = styled.div`
   backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.7);
   padding: 40px;
-  width: 300px;
-  margin: 100px auto;
+  border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 50px auto;
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 10px;
-  margin: 10px 0;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
-  border-radius: 12px;
-  font-size: 16px;
+  border-radius: 4px;
+  font-size: 1rem;
 `;
 
 const Button = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #80cbc4; /* pastel green */
-  border: none;
-  border-radius: 12px;
+  background-color: #80deea;
   color: white;
-  font-weight: bold;
-  font-size: 16px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
 
   &:hover {
-    background-color: #4db6ac; /* slightly darker pastel green */
+    background-color: #4dd0e1;
   }
-`;
-
-const Error = styled.p`
-  color: red;
-  text-align: center;
 `;
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Simple validation for "daksh" and "0609"
     if (username === "daksh" && password === "0609") {
-      setError("");
-      onLogin(); // Calling the parent component's login handler
+      onLogin();
     } else {
-      setError("Invalid credentials. Please try again.");
+      alert("Invalid credentials.");
     }
   };
 
   return (
     <LoginContainer>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <h2 style={{ textAlign: "center" }}>Login</h2>
         <Input
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          required
         />
         <Input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
         <Button type="submit">Login</Button>
-        {error && <Error>{error}</Error>}
       </form>
     </LoginContainer>
   );

@@ -1,146 +1,84 @@
+// src/components/CreateConferenceModal.js
 import React, { useState } from "react";
 import styled from "styled-components";
-import countries from "./data/countries"; // Adjust the path as necessary
 
 const ModalContainer = styled.div`
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
   padding: 20px;
-  z-index: 1000;
-`;
-
-const Title = styled.h2`
-  margin: 0 0 20px;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const Select = styled.select`
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
 `;
 
-const Button = styled.button`
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
-
-const CreateConferenceModal = ({ onClose, onCreate }) => {
-  const [conferenceName, setConferenceName] = useState("");
-  const [selectedCommittee, setSelectedCommittee] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState("");
-
-  const committees = [
-    "United Nations Human Rights Council (UNHCR)",
-    "United Nations Security Council (UNSC)",
-    "United Nations Commission on the Status of Women (UNCSW)",
-    "World Trade Organisation (WTO)",
-    "World Health Organisation (WHO)",
-    "United Nations Office on Drugs and Crimes (UNODC)",
-  ];
+const CreateConferenceModal = ({ onCreateConference, onClose }) => {
+  // Change onCreate to onCreateConference
+  const [name, setName] = useState("");
+  const [committee, setCommittee] = useState("UNHCR");
+  const [country, setCountry] = useState("United Nations");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create the new conference object
-    const newConference = {
-      name: conferenceName,
-      committee: selectedCommittee,
-      country: selectedCountry,
-    };
-
-    // Call the onCreate function to update the conferences state in LandingPage
-    onCreate(newConference);
-
-    // Close the modal after submission
-    onClose();
+    const newConference = { name, committee, country };
+    onCreateConference(newConference); // Pass the new conference to the parent
+    setName(""); // Reset fields
+    setCommittee("UNHCR");
+    setCountry("United Nations");
   };
 
   return (
     <ModalContainer>
-      <Title>Create Conference</Title>
-      <form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label htmlFor="conferenceName">Conference Name</Label>
-          <Input
+      <ModalContent>
+        <h2>Create New Conference</h2>
+        <form onSubmit={handleSubmit}>
+          <input
             type="text"
-            id="conferenceName"
-            value={conferenceName}
-            onChange={(e) => setConferenceName(e.target.value)}
+            placeholder="Conference Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
-        </FormGroup>
-
-        <FormGroup>
-          <Label htmlFor="committee">Select Committee</Label>
           <Select
-            id="committee"
-            value={selectedCommittee}
-            onChange={(e) => setSelectedCommittee(e.target.value)}
-            required
+            value={committee}
+            onChange={(e) => setCommittee(e.target.value)}
           >
-            <option value="" disabled>
-              Select a committee
-            </option>
-            {committees.map((committee, index) => (
-              <option key={index} value={committee}>
-                {committee}
-              </option>
-            ))}
+            <option value="UNHCR">UNHCR</option>
+            <option value="UNICEF">UNICEF</option>
+            <option value="UNEP">UNEP</option>
+            <option value="UNSC">UNSC</option>
+            <option value="CCC">CCC</option>
+            <option value="UNGA">UNGA</option>
           </Select>
-        </FormGroup>
-
-        <FormGroup>
-          <Label htmlFor="country">Select Country</Label>
-          <Select
-            id="country"
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
-            required
-          >
-            <option value="" disabled>
-              Select a country
-            </option>
-            {countries.map((country) => (
-              <option key={country.code} value={country.name}>
-                {country.name}
-              </option>
-            ))}
+          <Select value={country} onChange={(e) => setCountry(e.target.value)}>
+            {/* Replace with a complete list of countries */}
+            <option value="United Nations">🇺🇳 United Nations</option>
+            <option value="USA">🇺🇸 United States</option>
+            <option value="UK">🇬🇧 United Kingdom</option>
+            <option value="Canada">🇨🇦 Canada</option>
           </Select>
-        </FormGroup>
-
-        <Button type="submit">Create Conference</Button>
-      </form>
-      <Button onClick={onClose}>Close</Button>
+          <button type="submit">Create Conference</button>
+          <button type="button" onClick={onClose}>
+            Close
+          </button>
+        </form>
+      </ModalContent>
     </ModalContainer>
   );
 };

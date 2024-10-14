@@ -1,33 +1,18 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import LandingPage from "./components/LandingPage";
+// src/App.js
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ConferencePage from "./components/ConferencePage";
-import "./App.css";
+import InfoParser from "./components/InfoParser"; // Import the InfoParser component
 
-const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => setIsLoggedIn(true);
-
+function App() {
   return (
     <Router>
-      <div className="App grid-background">
-        {" "}
-        {/* Apply grid background */}
-        <Routes>
-          {isLoggedIn ? (
-            <>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/conference/:name" element={<ConferencePage />} />
-            </>
-          ) : (
-            <Route path="/" element={<Login onLogin={handleLogin} />} />
-          )}
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/conference/:name" element={<ConferencePage />} />
+        <Route path="/info-parser" element={<InfoParser />} />
+      </Routes>
     </Router>
   );
-};
+}
 
 export default App;
